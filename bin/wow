@@ -1,0 +1,177 @@
+#!/usr/bin/env node
+'use strict';
+var downloader = require('../lib/downloader');
+var log = require('npmlog');
+var path = require('path');
+var rimraf = require('rimraf');
+var async = require('async');
+var archy = require('archy');
+var util = require('util');
+var argv = require('minimist')(process.argv.slice(2), {
+  string: ['source'],
+  boolean: ['h', 'help'],
+  alias: {
+    'concur': 'c',
+    'source': 's'
+  }
+});
+log.heading = 'wow';
+var curseregex = /curse\:\/\/www\.curse\.com\/wow-addons\/([^\s\n\/]+)\/([0-9]+)\/download-client/;
+
+function help() {
+  console.log('wow: World Of Warcraft Addon Manager');
+  console.log('     Completely unassociated with Blizzard');
+  console.log('');
+  console.log('    install <addon-name>: Install an addon');
+  console.log('        -s --source Select the source of the addon. Defaults to `curse`');
+  //-c doesn't do anything right now.
+  //console.log('        -c --concur How many downloads to run at a single time.');
+  console.log('    update [addon]: Updates all addons, or the addon in the first argument.');
+  console.log('    uninstall <addon-name>: Uninstall a previously installed addon');
+  console.log('    installed: List installed addons');
+  console.log('    sources: List available addon sources');
+  console.log('  ');
+  console.log(' -==- THIS TOOL IS IN NO WAY AFFILIATED WITH BLIZZARD -==-');
+  console.log('  ||  THIS IS NOT AN OFFICIAL WORLD OF WARCRAFT TOOL   || ');
+  console.log('  ||  Please use some logic here. This tool is an act  || ');
+  console.log('  ||  of love for the game and for it\'s addons, use    || ');
+  console.log('  ||  common sense and don\'t make a fuss. Thank you.   || ');
+  console.log(' -==-                                          ~ Zeke -==-');
+}
+
+//Figure out the user's WoW install directory
+var wowdir;
+if (process.env.WOWPATH) {
+  wowdir = process.env.WOWPATH;
+} else {
+  log.warn('path', 'Using default WoW path, please set the WOWPATH env variable');
+  wowdir = path.join('C:', 'Program Files (x86)', 'World Of Warcraft');
+}
+
+var addonsdir = path.join(wowdir, 'Interface', 'AddOns');
+var savefile = path.join(wowdir, '.addons.json');
+var save = require('../lib/save')(savefile);
+
+var wow = require('../lib')(wowdir);
+if (argv._.length === 0 || argv.h || argv.help) {
+  help();
+  process.exit(0);
+}
+
+/**
+ * Capture curse:// URLs
+ * Used by the Curse Client
+ */
+
+var match = curseregex.exec(argv._.join(' '));
+if (match) {
+  //it is
+  wow.install(match[1], match[2], function(err) {
+    if (err) throw err;
+    process.exit(0);
+  });
+} else {
+  switch (argv._[0]) {
+    case 'install':
+      if (argv._.length !== 2) { help(); process.exit(0); }
+      var addon = argv._[1];
+      wow.install(argv.source || 'curse', addon, function(err) {
+        if (err) throw err;
+        console.log('Installed!');
+      });
+      break;
+    case 'uninstall':
+    case 'remove':
+      if (argv._.length !== 2) { help(); process.exit(0); }
+      var addon = argv._[1];
+      wow.uninstall(addon, function(err) {
+        if (err && err=='notfound') return console.log('Addon not found');
+        if (err) throw err;
+        console.log('Addon successfully uninstalled.');
+      });
+      break;
+    case 'installed':
+      save._read(function(err, data) {
+        if (err) throw err;
+        var names = Object.keys(data.addons);
+        console.log(names.length + ' addon' + (names.length !== 1 ? 's' : '') + ' installed');
+        names.forEach(function(addon) {
+          console.log('- '+addon);
+        });
+      });
+      break;
+    case 'checkupdate':
+      if (argv._.length !== 2) { help(); process.exit(0); }
+      var addon = argv._[1];
+      downloader.scrapeCurseDownloadURL(addon, function(err, url, version) {
+        if (err) throw err;
+        save._read(function(err, savefile) {
+          if (err) throw err;
+          if (savefile.addons[addon].version < version) {
+            console.log('Update Available! Install using `wow install ' + addon + '`');
+          } else {
+            console.log('No updated version found');
+          }
+        });
+      });
+      break;
+    case 'update':
+      var addons = [];
+      if (argv._.length === 2) {
+        //one addon
+        var addon = argv._[1];
+        wow.update(addon, function(err, updated) {
+          if (err) throw err;
+          if (!updated) {
+            console.log('No updates available.');
+          }
+        });
+      } else {
+        //all the addons
+        var updated = 0;
+        var concur = argv.concur || 1;
+        var queue = async.queue(function(addon, cb) {
+          //you could just pass wow.queue to this
+          //but then you can't have a counter
+          wow.update(addon, function(err, hadupdate) {
+            if (hadupdate) updated++;
+            cb(err);
+          });
+        }, concur);
+        save._read(function(err, savefile) {
+          if (err) throw err;
+          queue.push(Object.keys(savefile.addons));
+          queue.drain = function(err) {
+            if (err) throw err;
+            console.log('%s addon(s) updated', updated);
+          };
+        });
+      }
+      break;
+    case 'ls':
+    case 'folders':
+      save._read(function(err, savefile) {
+        if (err) throw err;
+        var folders = [];
+        Object.keys(savefile.addons).forEach(function(addon) {
+          var addondata = savefile.addons[addon];
+          folders.push({
+            label: util.format('[%s:%s r%s]', addondata.source, addon, addondata.version),
+            nodes: addondata.folders.sort()
+          });
+        });
+        folders.sort();
+        console.log(archy({
+          label: addonsdir,
+          nodes: folders
+        }));
+      });
+      break;
+    case 'sources':
+      console.log('Available Sources: %s', wow.sources().join(', '));
+      break;
+    default:
+      help();
+      break;
+  }
+}

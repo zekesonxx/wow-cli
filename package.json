@@ -1,0 +1,39 @@
+{
+  "name": "wow-cli",
+  "version": "0.0.1",
+  "description": "World Of Warcraft addon downloader and manager",
+  "main": "lib/index.js",
+  "dependencies": {
+    "archy": "^1.0.0",
+    "debug": "^2.0.0",
+    "minimist": "^1.1.0",
+    "async": "^0.9.0",
+    "npmlog": "^0.1.1",
+    "rimraf": "^2.2.8",
+    "decompress-zip": "^0.0.8",
+    "request": "^2.44.0",
+    "temp": "^0.8.1",
+    "mkdirp": "^0.5.0",
+    "wow-toc": "^0.1.0"
+  },
+  "bin": {
+    "wow": "./bin/wow"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/zekesonxx/wow-cli.git"
+  },
+  "keywords": [
+    "wow",
+    "world",
+    "warcraft",
+    "downloader",
+    "cli"
+  ],
+  "author": "Zeke Sonxx <github.com/zekesonxx>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zekesonxx/wow-cli/issues"
+  },
+  "homepage": "https://github.com/zekesonxx/wow-cli"
+}
