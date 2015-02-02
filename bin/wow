@@ -108,7 +108,7 @@ if (match) {
         save._read(function(err, savefile) {
           if (err) throw err;
           if (savefile.addons[addon].version < version) {
-            console.log('Update Available! Install using `wow install ' + addon + '`');
+            console.log('Update Available! Install using $ wow install %s', addon);
           } else {
             console.log('No updated version found');
           }

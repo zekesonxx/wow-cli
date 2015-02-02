@@ -24,8 +24,6 @@ wow: World Of Warcraft Addon Manager
 ```
 Currently only supports Curse and Tukui.
 
-**Note of warning** If two addons have a shared dependency, and you uninstall one of them, the shared dependency will also get uninstalled.
-
 ## Legal
 Licensed under the MIT license.
 
