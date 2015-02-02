@@ -29,6 +29,7 @@ function help() {
   console.log('    update [addon]: Updates all addons, or the addon in the first argument.');
   console.log('    uninstall <addon-name>: Uninstall a previously installed addon');
   console.log('    installed: List installed addons');
+  console.log('    ls, folders: List addons and their folders');
   console.log('    sources: List available addon sources');
   console.log('  ');
   console.log(' -==- THIS TOOL IS IN NO WAY AFFILIATED WITH BLIZZARD -==-');
