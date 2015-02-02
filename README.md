@@ -9,6 +9,25 @@ $ npm install -g wow-cli
 ```
 wow-cli is, as the name implies, a CLI tool. The tool will keep track of your installed addons in a .addons.json file in your WoW install folder. The tool works on all platforms. If you're not on Windows or installed WoW in a different place than `C:/Program Files (x86)/World Of Warcaft`, specify the `WOWPATH` environment variable to tell the tool where to work.
 
+## Features
+Implemented:
+* Install addons from Curse and TukUI.org
+* Uninstall addons
+* Update addons
+* List installed addons
+
+Planned (in no particular order):
+* Install addons from git/svn/hg repos
+* Better user interface
+* .addons.json backups
+* Cache of addon zip files for reinstalling and the like
+* Metadata display
+* (far future) GUI
+* logcat
+* Saved variable messing with
+* Folder blame
+
+
 ## Usage
 ```text
 $ wow
@@ -22,7 +41,7 @@ wow: World Of Warcraft Addon Manager
     installed: List installed addons
     sources: List available addon sources
 ```
-Currently only supports Curse and Tukui.
+Currently only supports Curse and TukUI.org addons.
 
 ## Legal
 Licensed under the MIT license.
