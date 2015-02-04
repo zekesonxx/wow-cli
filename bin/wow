@@ -9,11 +9,14 @@ var archy = require('archy');
 var util = require('util');
 var argv = require('minimist')(process.argv.slice(2), {
   string: ['source'],
-  boolean: ['h', 'help', 'no-cache'],
+  boolean: ['h', 'help'],
   alias: {
     'concur': 'c',
     'source': 's',
     'version': 'v'
+  },
+  default: {
+    'cache': true
   }
 });
 log.heading = 'wow';
@@ -79,7 +82,8 @@ if (match) {
     case 'install':
       if (argv._.length !== 2) { help(); process.exit(0); }
       var addon = argv._[1];
-      wow.install(argv.source || 'curse', addon, argv.v || null, (argv['no-cache'] !== undefined) || false, function(err) {
+      console.log(argv);
+      wow.install(argv.source || 'curse', addon, argv.v || null, !argv.cache || false, function(err) {
         if (err) throw err;
         console.log('Installed!');
       });
