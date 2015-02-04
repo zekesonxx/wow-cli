@@ -15,12 +15,12 @@ Implemented:
 * Uninstall addons
 * Update addons
 * List installed addons
+* Cache of addon zip files for reinstalling and the like
 
 Planned (in no particular order):
 * Install addons from git/svn/hg repos
 * Better user interface
 * .addons.json backups
-* Cache of addon zip files for reinstalling and the like
 * Metadata display
 * (far future) GUI
 * logcat

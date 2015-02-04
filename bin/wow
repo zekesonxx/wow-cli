@@ -9,7 +9,7 @@ var archy = require('archy');
 var util = require('util');
 var argv = require('minimist')(process.argv.slice(2), {
   string: ['source'],
-  boolean: ['h', 'help'],
+  boolean: ['h', 'help', 'no-cache'],
   alias: {
     'concur': 'c',
     'source': 's',
@@ -26,6 +26,7 @@ function help() {
   console.log('    install <addon-name>: Install an addon');
   console.log('        -s --source Select the source of the addon. Defaults to `curse`');
   console.log('        -v --version Install a specific version of the addon.');
+  console.log('           --no-cache Bypass a cached zip, if there is one');
   //-c doesn't do anything right now.
   //console.log('        -c --concur How many downloads to run at a single time.');
   console.log('    update [addon]: Updates all addons, or the addon in the first argument.');
@@ -45,7 +46,7 @@ function help() {
 //Figure out the user's WoW install directory
 var wowdir;
 if (process.env.WOWPATH) {
-  wowdir = process.env.WOWPATH;
+  wowdir = path.resolve(process.env.WOWPATH);
 } else {
   log.warn('path', 'Using default WoW path, please set the WOWPATH env variable');
   wowdir = path.join('C:', 'Program Files (x86)', 'World Of Warcraft');
@@ -78,7 +79,7 @@ if (match) {
     case 'install':
       if (argv._.length !== 2) { help(); process.exit(0); }
       var addon = argv._[1];
-      wow.install(argv.source || 'curse', addon, argv.v || null, function(err) {
+      wow.install(argv.source || 'curse', addon, argv.v || null, (argv['no-cache'] !== undefined) || false, function(err) {
         if (err) throw err;
         console.log('Installed!');
       });
