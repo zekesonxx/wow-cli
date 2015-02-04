@@ -12,7 +12,8 @@ var argv = require('minimist')(process.argv.slice(2), {
   boolean: ['h', 'help'],
   alias: {
     'concur': 'c',
-    'source': 's'
+    'source': 's',
+    'version': 'v'
   }
 });
 log.heading = 'wow';
@@ -24,6 +25,7 @@ function help() {
   console.log('');
   console.log('    install <addon-name>: Install an addon');
   console.log('        -s --source Select the source of the addon. Defaults to `curse`');
+  console.log('        -v --version Install a specific version of the addon.');
   //-c doesn't do anything right now.
   //console.log('        -c --concur How many downloads to run at a single time.');
   console.log('    update [addon]: Updates all addons, or the addon in the first argument.');
@@ -76,7 +78,7 @@ if (match) {
     case 'install':
       if (argv._.length !== 2) { help(); process.exit(0); }
       var addon = argv._[1];
-      wow.install(argv.source || 'curse', addon, function(err) {
+      wow.install(argv.source || 'curse', addon, argv.v || null, function(err) {
         if (err) throw err;
         console.log('Installed!');
       });
