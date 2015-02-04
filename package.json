@@ -1,6 +1,6 @@
 {
   "name": "wow-cli",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "World Of Warcraft addon downloader and manager",
   "main": "lib/index.js",
   "dependencies": {
