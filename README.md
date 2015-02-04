@@ -16,6 +16,7 @@ Implemented:
 * Update addons
 * List installed addons
 * Cache of addon zip files for reinstalling and the like
+* Folder blame
 
 Planned (in no particular order):
 * Install addons from git/svn/hg repos
@@ -25,7 +26,6 @@ Planned (in no particular order):
 * (far future) GUI
 * logcat
 * Saved variable messing with
-* Folder blame
 
 
 ## Usage

@@ -174,6 +174,13 @@ if (match) {
     case 'sources':
       console.log('Available Sources: %s', wow.sources().join(', '));
       break;
+    case 'blame':
+      if (argv._.length !== 2) { help(); process.exit(0); }
+      wow.blame(argv._[1], function(err, addons) {
+        if (err) throw err;
+        console.log('Folder %s is from %s', argv._[1], addons.join(', '));
+      });
+      break;
     default:
       help();
       break;
