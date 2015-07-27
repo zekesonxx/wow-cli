@@ -23,7 +23,7 @@ log.heading = 'wow';
 var curseregex = /curse\:\/\/www\.curse\.com\/wow-addons\/([^\s\n\/]+)\/([0-9]+)\/download-client/;
 
 function help() {
-  console.log('wow: World Of Warcraft Addon Manager');
+  console.log('wow: World Of Warcraft Addon Manager v%s', wow.version);
   console.log('     Completely unassociated with Blizzard');
   console.log('   ');
   console.log('    sources: List available addon sources');
@@ -184,6 +184,9 @@ if (match) {
         if (err) throw err;
         console.log('Folder %s is from %s', argv._[1], addons.join(', '));
       });
+      break;
+    case 'version':
+      console.log('v%s', wow.version);
       break;
     default:
       help();
