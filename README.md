@@ -31,15 +31,24 @@ Planned (in no particular order):
 ## Usage
 ```text
 $ wow
-wow: World Of Warcraft Addon Manager
+wow: World Of Warcraft Addon Manager v0.0.4
      Completely unassociated with Blizzard
 
+    sources: List available addon sources
+  Installing:
     install <addon-name>: Install an addon
         -s --source Select the source of the addon. Defaults to `curse`
+        -v --version Install a specific version of the addon.
+           --cache <true/false> Enable or disable the cache. Defaults to true
+    checkupdate <addon>: Check if there's an update to an addon
     update [addon]: Updates all addons, or the addon in the first argument.
+        -c --concur How many downloads to run when updating all the addons.
+                    Default: 1. Recommended: 1-4.
     uninstall <addon-name>: Uninstall a previously installed addon
+  Managing:
     installed: List installed addons
-    sources: List available addon sources
+    ls, folders: List addons and their folders
+    blame <folder>: Figure out which addon an addon folder is from
 ```
 Currently only supports Curse and TukUI.org addons.
 
