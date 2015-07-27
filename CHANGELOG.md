@@ -1,6 +1,8 @@
 ### 0.0.4 (in progress)
 * Fix broken caching, use `--cache false` to disable and `--cache true` to ensure enabled.
 * Added WoWInterface support
+* Improved outdated help message
+* Added version info in help and `wow version`
 
 ### 0.0.3
 * Now caches downloaded files in $WOWPATH/Interface/ZipFiles, making for faster reinstalls and makes downgrades possible with TukUI addons. Can be bypassed with `--no-cache`
