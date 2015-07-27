@@ -11,7 +11,7 @@ wow-cli is, as the name implies, a CLI tool. The tool will keep track of your in
 
 ## Features
 Implemented:
-* Install addons from Curse and TukUI.org
+* Install addons from Curse, TukUI.org, and WoWInterface
 * Uninstall addons
 * Update addons
 * List installed addons
