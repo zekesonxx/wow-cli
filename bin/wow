@@ -25,25 +25,25 @@ var curseregex = /curse\:\/\/www\.curse\.com\/wow-addons\/([^\s\n\/]+)\/([0-9]+)
 function help() {
   console.log('wow: World Of Warcraft Addon Manager');
   console.log('     Completely unassociated with Blizzard');
-  console.log('');
+  console.log('   ');
+  console.log('    sources: List available addon sources');
+  console.log('  Installing:');
   console.log('    install <addon-name>: Install an addon');
   console.log('        -s --source Select the source of the addon. Defaults to `curse`');
   console.log('        -v --version Install a specific version of the addon.');
-  console.log('           --no-cache Bypass a cached zip, if there is one');
-  //-c doesn't do anything right now.
-  //console.log('        -c --concur How many downloads to run at a single time.');
+  console.log('           --cache <true/false> Enable or disable the cache. Defaults to true');
+  console.log('    checkupdate <addon>: Check if there\'s an update to an addon');
   console.log('    update [addon]: Updates all addons, or the addon in the first argument.');
+  console.log('        -c --concur How many downloads to run when updating all the addons.');
+  console.log('                    Default: 1. Recommended: 1-4.');
   console.log('    uninstall <addon-name>: Uninstall a previously installed addon');
+  console.log('  Managing:');
   console.log('    installed: List installed addons');
   console.log('    ls, folders: List addons and their folders');
-  console.log('    sources: List available addon sources');
-  console.log('  ');
-  console.log(' -==- THIS TOOL IS IN NO WAY AFFILIATED WITH BLIZZARD -==-');
-  console.log('  ||  THIS IS NOT AN OFFICIAL WORLD OF WARCRAFT TOOL   || ');
-  console.log('  ||  Please use some logic here. This tool is an act  || ');
-  console.log('  ||  of love for the game and for it\'s addons, use    || ');
-  console.log('  ||  common sense and don\'t make a fuss. Thank you.   || ');
-  console.log(' -==-                                          ~ Zeke -==-');
+  console.log('    blame <folder>: Figure out which addon an addon folder is from');
+  console.log('    ');
+  console.log('    wow-cli is licensed under the MIT license');
+  console.log('    https://github.com/zekesonxx/wow-cli');
 }
 
 //Figure out the user's WoW install directory
