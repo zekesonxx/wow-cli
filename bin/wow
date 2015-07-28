@@ -87,7 +87,7 @@ if (match) {
     case 'install':
       if (argv._.length !== 2) { help(); process.exit(0); }
       var addon = argv._[1];
-      wow.install(argv.source || 'curse', addon, argv.v || null, !argv.cache || false, function(err) {
+      wow.install(argv.source || 'curse', addon, argv.v || null, !argv.cache || null, function(err) {
         if (err) throw err;
         console.log('Installed!');
       });
