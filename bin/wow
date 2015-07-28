@@ -109,19 +109,27 @@ if (match) {
       });
       break;
     case 'checkupdate':
-      if (argv._.length !== 2) { help(); process.exit(0); }
-      var addon = argv._[1];
-      downloader.scrapeCurseDownloadURL(addon, function(err, url, version) {
-        if (err) throw err;
-        save._read(function(err, savefile) {
+      if (argv._.length > 2) { help(); process.exit(0); }
+      if (argv._.length === 2) {
+        var addon = argv._[1];
+        downloader.scrapeCurseDownloadURL(addon, function(err, url, version) {
           if (err) throw err;
-          if (savefile.addons[addon].version < version) {
-            console.log('Update Available! Install using $ wow install %s', addon);
-          } else {
-            console.log('No updated version found');
-          }
+          save._read(function(err, savefile) {
+            if (err) throw err;
+            if (savefile.addons[addon].version < version) {
+              console.log('Update Available! Install using $ wow install %s', addon);
+            } else {
+              console.log('No updated version found');
+            }
+          });
         });
-      });
+      } else if (argv._.length === 1) {
+        wow.checkAllUpdates(argv.concur || 1, function(err, num, updates) {
+          if (err) throw err;
+          console.log('%s addon%s updates: %s', num, (num !== 1 ? 's have' : ' has'), updates.join(', '));
+
+        });
+      }
       break;
     case 'update':
       var addons = [];
