@@ -50,7 +50,7 @@ wow: World Of Warcraft Addon Manager v0.0.4
     ls, folders: List addons and their folders
     blame <folder>: Figure out which addon an addon folder is from
 ```
-Currently only supports Curse and TukUI.org addons.
+Currently supports Curse, TukUI.org, and WoWInterface addons.
 
 ## Legal
 Licensed under the MIT license.
