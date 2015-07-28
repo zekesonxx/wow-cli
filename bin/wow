@@ -41,6 +41,11 @@ function help() {
   console.log('    installed: List installed addons');
   console.log('    ls, folders: List addons and their folders');
   console.log('    blame <folder>: Figure out which addon an addon folder is from');
+  console.log('  Internals/Automation:');
+  console.log('    Do note that many of these will supress all output except for the requested output');
+  console.log('    dlurl <addon>: Get a download URL.');
+  console.log('        -s --source Addon source, see above');
+  console.log('        -v --version Addon version, see above');
   console.log('    ');
   console.log('    wow-cli is licensed under the MIT license');
   console.log('    https://github.com/zekesonxx/wow-cli');
@@ -194,6 +199,17 @@ if (match) {
       break;
     case 'version':
       console.log('v%s', wow.version);
+      break;
+    case 'dlurl':
+    case 'downloadurl':
+      log.pause();
+      wow.getDownloadURL(argv._[1], argv.source || 'curse', argv.version || null, function(err, url) {
+        if (err) {
+          log.resume();
+          throw err;
+        }
+        console.log(url);
+      });
       break;
     default:
       help();
